@@ -2,19 +2,24 @@
 #[cfg(test)]
 mod tests;
 
+use std::io;
+use std::path::{Path, PathBuf};
 use rocket;
-use tera::Context;
-use rocket_contrib::Template;
+use rocket::response::NamedFile;
 
 
 #[get("/")]
-fn index() -> Template {
-    Template::render("index", &Context::new())
+fn index() -> io::Result<NamedFile> {
+    NamedFile::open("public/index.html")
+}
+
+#[get("/<file..>")]
+fn files(file: PathBuf) -> Option<NamedFile> {
+  NamedFile::open(Path::new("public/").join(file)).ok()
 }
 
 pub fn start_server() {
     rocket::ignite()
-          .attach(Template::fairing())
-          .mount("/", routes![index])
+          .mount("/", routes![index, files])
           .launch();
 }
