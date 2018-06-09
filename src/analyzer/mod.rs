@@ -15,6 +15,14 @@ pub struct Delta {
     deletions: usize,
 }
 
+pub fn list_files_in_commit<'a>(repo: &'a Repository, oid: Oid) -> Result<Vec<String>, Error> {
+    let commit = repo.find_commit(oid)?;
+    let tree = commit.tree()?;
+    Ok(tree.iter()
+        .filter_map(|entry| entry.name().map(|file_name| file_name.to_string()))
+        .collect())
+}
+
 pub fn list_commits<'a>(repo: &'a Repository)
     -> Result<impl Iterator<Item=Oid> + 'a, Error> {
     let mut revwalk = repo.revwalk()?;
