@@ -1,7 +1,7 @@
 
 use std::vec::Vec;
 use analyzer::{list_commits,extract_diff_info};
-use git2::{Error,Repository,DiffFormat};
+use git2::{Oid,Repository};
 
 
 #[test]
@@ -10,25 +10,25 @@ fn listing_commits() {
     match list_commits(&repo) {
         Ok(commits) => {
             let commit_strings: Vec<String> =
-                commits.iter().map(|c| format!("{}", c)).collect();
+                commits.map(|c| format!("{}", c)).collect();
             let expected: Vec<&str> = vec![
-                "5a88fa35c3e589537ff04ffa4bd8203409fe6e36",
-                "20d2b7e9858b02a658eee11dfbab2fc8a3f1c900",
                 "19a6ca15ecb29c4debd5b32181c3f7af22b05923",
+                "20d2b7e9858b02a658eee11dfbab2fc8a3f1c900",
+                "5a88fa35c3e589537ff04ffa4bd8203409fe6e36",
             ];
             assert_eq!(commit_strings, expected);
         }
-        Err(e) => assert!(false)
+        _ => assert!(false)
     };
 }
 
 #[test]
 fn extracting_diff_info() {
     let repo = Repository::open("./fixtures").unwrap();
-    let commits = list_commits(&repo).unwrap();
-    let commit1 = commits[0];
-    let commit2 = commits[1];
-    let commit3 = commits[2];
+    let mut commits = list_commits(&repo).unwrap();
+    let commit3 = commits.next().unwrap();
+    let commit2 = commits.next().unwrap();
+    let commit1 = commits.next().unwrap();
 
     let diff1 = extract_diff_info(&repo, commit1, "file1".to_string()).unwrap();
     let diff2_1 = extract_diff_info(&repo, commit2, "file1".to_string()).unwrap();
