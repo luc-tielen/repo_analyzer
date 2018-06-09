@@ -1,20 +1,13 @@
 
 use std::vec::Vec;
-use analyzer::{list_files_in_commit,list_commits,extract_diff_info};
+use analyzer::{list_files_in_repo,list_commits,extract_diff_info};
 use git2::{Oid,Repository};
 
 #[test]
-fn list_files_in_repo_for_commit() {
+fn listing_files_in_repo() {
     let repo = Repository::open("./fixtures").unwrap();
-    let commits: Vec<Oid> = list_commits(&repo)
-        .unwrap()
-        .collect();
-    let files3 = list_files_in_commit(&repo, commits[0]).unwrap();
-    let files2 = list_files_in_commit(&repo, commits[1]).unwrap();
-    let files1 = list_files_in_commit(&repo, commits[2]).unwrap();
-    assert_eq!(files3, ["file1", "file2"]);
-    assert_eq!(files2, ["file1"]);
-    assert_eq!(files1, ["file1"]);
+    let files = list_files_in_repo(&repo).unwrap();
+    assert_eq!(files, ["file1", "file2"]);
 }
 
 #[test]

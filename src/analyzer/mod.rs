@@ -2,7 +2,7 @@
 #[cfg(test)]
 mod tests;
 
-use git2::{Error,Repository,Oid,Sort,DiffOptions,Time};
+use git2::{Error,Repository,Oid,Sort,StatusOptions,DiffOptions,Time};
 
 
 pub struct Delta {
@@ -15,12 +15,14 @@ pub struct Delta {
     deletions: usize,
 }
 
-pub fn list_files_in_commit<'a>(repo: &'a Repository, oid: Oid) -> Result<Vec<String>, Error> {
-    let commit = repo.find_commit(oid)?;
-    let tree = commit.tree()?;
-    Ok(tree.iter()
-        .filter_map(|entry| entry.name().map(|file_name| file_name.to_string()))
-        .collect())
+pub fn list_files_in_repo<'a>(repo: &'a Repository)
+    -> Result<Vec<String>, Error> {
+    let mut status_opts = StatusOptions::new();
+    status_opts.include_unmodified(true).no_refresh(true);
+    Ok(repo.statuses(Some(&mut status_opts))?
+           .iter()
+           .filter_map(|file| file.path().map(|path| path.to_string()))
+           .collect())
 }
 
 pub fn list_commits<'a>(repo: &'a Repository)
