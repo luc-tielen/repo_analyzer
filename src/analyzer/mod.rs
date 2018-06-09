@@ -2,14 +2,14 @@
 #[cfg(test)]
 mod tests;
 
-use git2::{Error,Repository,Oid,Sort,StatusOptions,DiffOptions,Time};
+use git2::{Error,Repository,Oid,Sort,StatusOptions,DiffOptions};
 
-
+#[derive(Serialize)]
 pub struct Delta {
-    hash: Oid,
+    hash: String,
     summary: String,
     file_name: String,
-    time: Time,
+    time: i64,  // seconds since epoch
     author: String,
     additions: usize,
     deletions: usize,
@@ -70,10 +70,10 @@ pub fn extract_diff_info<'a>(repo: &'a Repository, oid: Oid,
     let time = commit.time();
     let author = commit.author().name().unwrap().to_string();
     Ok(Delta {
-        hash: hash,
+        hash: format!("{}", hash),
         summary: msg,
         file_name: file,
-        time: time,
+        time: time.seconds(),
         author: author,
         additions: stats.insertions(),
         deletions: stats.deletions(),
