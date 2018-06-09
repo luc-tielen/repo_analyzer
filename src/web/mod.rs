@@ -27,13 +27,11 @@ fn files(file: PathBuf) -> Option<NamedFile> {
 #[get("/files_in_repo", format="application/json")]
 fn files_in_repo() -> Json<Value> {
     let dir = ".";  // TODO make configurable
-    Repository::open(dir).and_then(|repo| {
-        list_files_in_repo(&repo).map(|files| {
-            Json(json!({ "files": files }))
-        })
-    }).map_err(|err| {
-        Json(json!({ "error": err.message() }))
-    }).unwrap_or_else(|err_json| err_json)
+    Repository::open(dir)
+        .and_then(|repo| list_files_in_repo(&repo))
+        .map(|files| Json(json!({ "files": files })))
+        .map_err(|err| Json(json!({ "error": err.message() })))
+        .unwrap_or_else(|err_json| err_json)
 }
 
 pub fn start_server() {
