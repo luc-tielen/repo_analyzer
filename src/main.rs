@@ -7,7 +7,6 @@ extern crate rocket_contrib;
 #[macro_use]
 extern crate serde_derive;
 extern crate git2;
-extern crate walkdir;
 
 mod analyzer;
 mod web;

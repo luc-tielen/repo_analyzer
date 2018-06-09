@@ -13,4 +13,3 @@ serde_json = "1.0"
 serde_derive = "1.0"
 
 git2 = "0.7.1"
-walkdir = "2"

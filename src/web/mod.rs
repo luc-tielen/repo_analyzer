@@ -3,14 +3,14 @@
 mod tests;
 
 use std::io;
+use std::env;
 use std::path::{Path, PathBuf};
 
 use rocket;
 use rocket::response::NamedFile;
 use rocket_contrib::{Json, Value};
-use walkdir::WalkDir;
 
-use git2::{Repository, Error};
+use git2::Repository;
 use analyzer::list_files_in_repo;
 
 
@@ -26,7 +26,7 @@ fn files(file: PathBuf) -> Option<NamedFile> {
 
 #[get("/files_in_repo", format="application/json")]
 fn files_in_repo() -> Json<Value> {
-    let dir = ".";  // TODO make configurable
+    let dir = env::var("REPO_DIR").unwrap_or(".".to_string());
     Repository::open(dir)
         .and_then(|repo| list_files_in_repo(&repo))
         .map(|files| Json(json!({ "files": files })))
