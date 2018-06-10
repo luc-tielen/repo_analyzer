@@ -1,7 +1,7 @@
 
 use std::vec::Vec;
 use analyzer::{list_files_in_repo,list_commits,extract_diff_info};
-use git2::{Oid,Repository};
+use git2::Repository;
 
 #[test]
 fn listing_files_in_repo() {
