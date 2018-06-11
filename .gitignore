@@ -2,4 +2,4 @@ target/
 vendor/
 node_modules/
 public/
-js/main.js
+js/app.js

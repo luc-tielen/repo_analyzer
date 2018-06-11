@@ -29,7 +29,7 @@ exports.config = {
     },
     elmBrunch: {
       elmFolder: "elm",
-      mainModules: ["Main.elm"],
+      mainModules: ["App.elm"],
       outputFolder: "../js"
     },
   },
