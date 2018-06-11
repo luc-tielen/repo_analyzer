@@ -1,4 +1,4 @@
-module App exposing (main)
+module Main exposing (main)
 
 import DiffAnalyzer.State as State
 import DiffAnalyzer.View as View
