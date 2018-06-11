@@ -1,6 +1,6 @@
-module DiffAnalyzer.Rest exposing (getFilesInRepo)
+module DiffAnalyzer.FileMenu.Rest exposing (getFilesInRepo)
 
-import DiffAnalyzer.Types exposing (Msg(FilesLoaded))
+import DiffAnalyzer.FileMenu.Types exposing (Msg(FilesLoaded))
 import Http
 import Json.Decode as JD
 
@@ -11,4 +11,3 @@ getFilesInRepo =
       filesDecoder = JD.list JD.string |> JD.at ["files"]
       req = Http.get url filesDecoder
   in Http.send FilesLoaded req
-

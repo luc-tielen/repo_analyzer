@@ -1,12 +1,7 @@
 module DiffAnalyzer.Types exposing (..)
 
-import Http
+import DiffAnalyzer.FileMenu.Types as FileMenu
 
+type alias Model = { fileMenu : FileMenu.Model }
 
-type alias File = String
-
-type alias Model = { files : List File, currentFile : Maybe File }
-
-type Msg = FilesLoaded (Result Http.Error (List File))
-         | FileSelected File
-
+type Msg = FileMenuMsg FileMenu.Msg

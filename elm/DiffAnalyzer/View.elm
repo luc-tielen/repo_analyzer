@@ -1,12 +1,11 @@
 module DiffAnalyzer.View exposing (view)
 
 import DiffAnalyzer.Types exposing (..)
-import Html exposing (Html, text, ul, li)
+import DiffAnalyzer.FileMenu.View as FMView
+import Html exposing (Html, div)
 
 
 view : Model -> Html Msg
 view model =
-  let {files} = model
-      showFile file = li [] [text file]
-  in ul [] <| List.map showFile files
+  div [] [FMView.view model.fileMenu |> Html.map FileMenuMsg]
 
