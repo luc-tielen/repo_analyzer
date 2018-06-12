@@ -23,11 +23,12 @@ update msg model =
         Nothing ->
           (updatedModel, Cmd.none)
         Just (NotifyFileSelected file) ->
-          let updatedGModel = GState.update (FileSelected file) model.graph
+          let (updatedGModel, gCmd) = GState.update (FileSelected file) model.graph
               updatedModel2 = { updatedModel | graph = updatedGModel }
-          in (updatedModel2, Cmd.none)
+          in (updatedModel2, Cmd.map GraphMsg gCmd)
     GraphMsg msg ->
-      (model, Cmd.none)
+      let (updatedGModel, gCmd) = GState.update msg model.graph
+      in ({ model | graph = updatedGModel }, Cmd.map GraphMsg gCmd)
 
 subscriptions : Model -> Sub Msg
 subscriptions _ = Sub.none
