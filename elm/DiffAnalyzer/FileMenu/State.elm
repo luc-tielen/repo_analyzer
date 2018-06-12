@@ -7,13 +7,13 @@ import DiffAnalyzer.FileMenu.Rest as FMRest
 init : (Model, Cmd Msg)
 init = ({ files = [], currentFile = Nothing }, FMRest.getFilesInRepo)
 
-update : Msg -> Model -> (Model, Cmd Msg)
+update : Msg -> Model -> (Model, UpstreamMsg)
 update msg model =
   case msg of
     FilesLoaded (Ok files) ->
-      ({ model | files = files }, Cmd.none)
+      ({ model | files = files }, NoEffect)
     FilesLoaded (Err err) ->
-      (model, Cmd.none)
+      (model, NoEffect)
     FileSelected file ->
-      ({ model | currentFile = Just file }, Cmd.none)
+      ({ model | currentFile = Just file }, NotifyFileSelected file)
 
