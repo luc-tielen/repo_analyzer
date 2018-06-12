@@ -5,7 +5,7 @@ import Html exposing (Html, text, ul, li)
 import Html.Events exposing (onClick)
 
 
-view : Model -> Html Msg
+view : FileMenuModel -> Html FileMenuMsg
 view model =
   let {files} = model
       showFile file = li [onClick <| FileSelected file] [text file]

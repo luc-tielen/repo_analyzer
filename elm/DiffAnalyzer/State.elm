@@ -1,7 +1,7 @@
 module DiffAnalyzer.State exposing (init, update, subscriptions)
 
 import DiffAnalyzer.Types exposing (..)
-import DiffAnalyzer.FileMenu.Types exposing (UpstreamMsg(..))
+import DiffAnalyzer.FileMenu.Types exposing (FMUpstreamMsg(..))
 import DiffAnalyzer.Graph.Types exposing (GraphMsg(FileSelected))
 import DiffAnalyzer.FileMenu.State as FMState
 import DiffAnalyzer.Graph.State as GState
@@ -20,9 +20,9 @@ update msg model =
       let (updatedFMModel, upstream) = FMState.update msg model.fileMenu
           updatedModel = { model | fileMenu = updatedFMModel }
       in case upstream of
-        NoEffect ->
+        Nothing ->
           (updatedModel, Cmd.none)
-        NotifyFileSelected file ->
+        Just (NotifyFileSelected file) ->
           let updatedGModel = GState.update (FileSelected file) model.graph
               updatedModel2 = { updatedModel | graph = updatedGModel }
           in (updatedModel2, Cmd.none)

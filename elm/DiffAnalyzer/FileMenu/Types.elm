@@ -5,10 +5,10 @@ import Http
 
 type alias File = String
 
-type alias Model = { files : List File, currentFile : Maybe File }
+type alias FileMenuModel =
+  { files : List File, currentFile : Maybe File }
 
-type Msg = FilesLoaded (Result Http.Error (List File))
-         | FileSelected File
+type FileMenuMsg = FilesLoaded (Result Http.Error (List File))
+                 | FileSelected File
 
-type UpstreamMsg = NoEffect
-                 | NotifyFileSelected File
+type FMUpstreamMsg = NotifyFileSelected File

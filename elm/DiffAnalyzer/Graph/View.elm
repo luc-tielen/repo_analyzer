@@ -4,7 +4,7 @@ import DiffAnalyzer.Graph.Types exposing (..)
 import Html exposing (Html, div, text)
 
 
-view : Model -> Html GraphMsg
+view : GraphModel -> Html GraphMsg
 view model =
   case model.currentFile of
     Nothing -> div [] [text "No file selected!"]

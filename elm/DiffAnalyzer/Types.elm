@@ -1,9 +1,10 @@
 module DiffAnalyzer.Types exposing (..)
 
-import DiffAnalyzer.FileMenu.Types as FileMenu
-import DiffAnalyzer.Graph.Types as Graph
+import DiffAnalyzer.FileMenu.Types exposing (..)
+import DiffAnalyzer.Graph.Types exposing (..)
 
-type alias Model = { fileMenu : FileMenu.Model, graph : Graph.Model }
+type alias Model =
+  { fileMenu : FileMenuModel, graph : GraphModel }
 
-type Msg = FileMenuMsg FileMenu.Msg
-         | GraphMsg Graph.GraphMsg
+type Msg = FileMenuMsg FileMenuMsg
+         | GraphMsg GraphMsg
