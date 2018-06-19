@@ -15,17 +15,17 @@ use analyzer::{list_files_in_repo, list_commits, extract_diff_info};
 
 
 fn get_repo_dir() -> String {
-    env::var("REPO_DIR").unwrap_or(".".to_string())
+    env::var("REPO_DIR").unwrap_or("..".to_string())
 }
 
 #[get("/")]
 fn index() -> io::Result<NamedFile> {
-    NamedFile::open("public/index.html")
+    NamedFile::open("../frontend/static/index.html")
 }
 
 #[get("/<file..>")]
 fn files(file: PathBuf) -> Option<NamedFile> {
-  NamedFile::open(Path::new("public/").join(file)).ok()
+  NamedFile::open(Path::new("../frontend/static/").join(file)).ok()
 }
 
 #[get("/files_in_repo", format="application/json")]
