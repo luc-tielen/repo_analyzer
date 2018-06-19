@@ -1,12 +1,13 @@
 module DiffAnalyzer.FileMenu.View exposing (view)
 
 import DiffAnalyzer.FileMenu.Types exposing (..)
-import Html exposing (Html, text, ul, li)
-import Html.Events exposing (onClick)
+import DiffAnalyzer.Style exposing (..)
+import Element exposing (..)
+import Element.Events exposing (onClick)
 
 
-view : FileMenuModel -> Html FileMenuMsg
+view : FileMenuModel -> Element Styles variation FileMenuMsg
 view model =
   let {files} = model
-      showFile file = li [onClick <| FileSelected file] [text file]
-  in ul [] <| List.map showFile files
+      showFile file = el None [onClick <| FileSelected file] <| text file
+  in column None [] <| List.map showFile files

@@ -1,7 +1,10 @@
 module DiffAnalyzer.Graph.View exposing (view)
 
 import DiffAnalyzer.Graph.Types exposing (..)
-import Html exposing (Html, div, text)
+import DiffAnalyzer.Style exposing (..)
+import Element exposing (..)
+import Html exposing (Html)
+import Time
 import LineChart
 import LineChart.Container as Container
 import LineChart.Legends as Legends
@@ -17,15 +20,23 @@ import LineChart.Axis as Axis
 import LineChart.Axis.Intersection as Intersection
 
 
-view : GraphModel -> Html GraphMsg
+view : GraphModel -> Element Styles variation GraphMsg
 view model =
   case model.currentFile of
-    Nothing -> div [] [text "No file selected!"]
+    Nothing -> el None [] <| text "No file selected!"
     Just file ->
-      div []
+      column None [] <|
           [ text <| "Selected file: " ++ file
-          , chart model.deltas
+          , html <| chart model.deltas
           ]
+
+
+
+
+
+
+
+
 
 chart : List Delta -> Html GraphMsg
 chart deltas =
@@ -36,7 +47,7 @@ chart deltas =
      , LineChart.line Colors.red Dots.circle "Deletions" deletions
      ]
 
-chartConfig : LineChart.Config (Float, Int) GraphMsg
+chartConfig : LineChart.Config (Time.Time, Int) GraphMsg
 chartConfig =
   { x = Axis.time 1270 "Time" Tuple.first
   , y = Axis.default 450 "LOC" (Tuple.second >> toFloat)
