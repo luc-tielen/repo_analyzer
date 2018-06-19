@@ -4,17 +4,20 @@ import Http
 
 
 type alias File = String
-
-type alias GraphModel = { currentFile: Maybe File }
+type alias Author = String
+type alias Commit = String
+type alias Summary = String
 
 type alias Delta =
-  { author : String
-  , commit : String
-  , summary : String
-  , time : Int
+  { author : Author
+  , commit : Commit
+  , summary : Summary
+  , time : Float
   , additions : Int
   , deletions : Int
   }
+
+type alias GraphModel = { currentFile: Maybe File, deltas : (List Delta) }
 
 type GraphMsg = FileSelected File
               | DeltasRetrieved (Result Http.Error (List Delta))

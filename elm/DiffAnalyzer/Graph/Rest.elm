@@ -7,7 +7,14 @@ import Json.Encode as JE
 
 
 deltaDecoder : JD.Decoder Delta
-deltaDecoder = JD.map6 Delta JD.string JD.string JD.string JD.int JD.int JD.int
+deltaDecoder =
+  JD.map6 Delta
+    (JD.field "author" JD.string)
+    (JD.field "hash" JD.string)
+    (JD.field "summary" JD.string)
+    (JD.field "time" JD.float)
+    (JD.field "additions" JD.int)
+    (JD.field "deletions" JD.int)
 
 getDeltasForFile : File -> Cmd GraphMsg
 getDeltasForFile file =

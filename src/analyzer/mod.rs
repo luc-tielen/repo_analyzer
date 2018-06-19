@@ -9,7 +9,7 @@ pub struct Delta {
     hash: String,
     summary: String,
     file_name: String,
-    time: i64,  // seconds since epoch
+    time: f64,  // milliseconds since epoch
     author: String,
     additions: usize,
     deletions: usize,
@@ -73,7 +73,7 @@ pub fn extract_diff_info<'a>(repo: &'a Repository, oid: Oid,
         hash: format!("{}", hash),
         summary: msg,
         file_name: file,
-        time: time.seconds(),
+        time: (time.seconds() * 1000) as f64,
         author: author,
         additions: stats.insertions(),
         deletions: stats.deletions(),
