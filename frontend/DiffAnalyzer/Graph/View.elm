@@ -3,6 +3,7 @@ module DiffAnalyzer.Graph.View exposing (view)
 import DiffAnalyzer.Graph.Types exposing (..)
 import DiffAnalyzer.Style exposing (..)
 import Element exposing (..)
+import Element.Events exposing (..)
 import Element.Attributes exposing (..)
 import Html exposing (Html)
 import Time
@@ -28,17 +29,34 @@ view model =
     Just file ->
       column None [ width fill, verticalCenter, padding 10 ] <|
           [ el (Text Title) [ center, paddingBottom 20 ] <| text file
-          , html <| chart model.deltas
+          , html <| chart model
+          , filterDeltasButton model
           ]
 
-chart : List Delta -> Html GraphMsg
-chart deltas =
-  let additions = List.map (\d -> (d.time, d.additions)) deltas
-      deletions = List.map (\d -> (d.time, d.deletions)) deltas
+filterDeltasButton : GraphModel -> Element Styles variation GraphMsg
+filterDeltasButton model =
+  case model.filterMode of
+    NoFilter ->
+      let attrs = [ width (px 250), center, onClick <| ChangeFilterMode OnlyChanges ]
+      in button Button attrs <| text "Show only changes for this file"
+    OnlyChanges ->
+      let attrs = [ width (px 250), center, onClick <| ChangeFilterMode NoFilter ]
+      in button Button attrs <| text "Show entire history"
+
+chart : GraphModel -> Html GraphMsg
+chart model =
+  let filteredDeltas = case model.filterMode of
+        NoFilter -> model.deltas
+        OnlyChanges -> List.filter isDeltaWithChanges model.deltas
+      additions = List.map (\d -> (d.time, d.additions)) filteredDeltas
+      deletions = List.map (\d -> (d.time, d.deletions)) filteredDeltas
   in LineChart.viewCustom chartConfig
      [ LineChart.line Colors.green Dots.circle "Additions" additions
      , LineChart.line Colors.red Dots.circle "Deletions" deletions
      ]
+
+isDeltaWithChanges : Delta -> Bool
+isDeltaWithChanges d = d.additions /= 0 || d.deletions /= 0
 
 chartConfig : LineChart.Config (Time.Time, Int) GraphMsg
 chartConfig =

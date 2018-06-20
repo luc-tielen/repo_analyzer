@@ -17,7 +17,15 @@ type alias Delta =
   , deletions : Int
   }
 
-type alias GraphModel = { currentFile: Maybe File, deltas : (List Delta) }
+type FilterMode = NoFilter | OnlyChanges
+
+type alias GraphModel =
+  { currentFile : Maybe File
+  , deltas : (List Delta)
+  , filterMode : FilterMode
+  }
 
 type GraphMsg = FileSelected File
               | DeltasRetrieved (Result Http.Error (List Delta))
+              | ChangeFilterMode FilterMode
+

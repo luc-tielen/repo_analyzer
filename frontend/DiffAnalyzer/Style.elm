@@ -9,6 +9,7 @@ import Color exposing (Color, rgba)
 
 
 type Styles = None
+            | Button
             | Text TextStyles
             | FileMenu
             | FileMenuItem FMItemStyles
@@ -26,6 +27,11 @@ styleSheet : Style.StyleSheet Styles variation
 styleSheet =
   Style.styleSheet
     [ style None []
+    , style Button
+      [ Border.solid
+      , Border.rounded 5
+      , Color.background lightGray
+      ]
     , style (Text Title) <| Font.bold :: (font 2)
     , style (Text Standard) <| font 1
     , style FileMenu <|

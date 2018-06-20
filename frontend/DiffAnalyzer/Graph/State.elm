@@ -5,7 +5,8 @@ import DiffAnalyzer.Graph.Rest exposing (..)
 
 
 init : GraphModel
-init = { currentFile = Nothing, deltas = [] }
+init =
+  { currentFile = Nothing, deltas = [], filterMode = NoFilter }
 
 update : GraphMsg -> GraphModel -> (GraphModel, Cmd GraphMsg)
 update msg model =
@@ -16,3 +17,6 @@ update msg model =
       (model, Cmd.none)
     DeltasRetrieved (Ok deltas) ->
       ({ model | deltas = deltas }, Cmd.none)
+    ChangeFilterMode mode ->
+      ({ model | filterMode = mode }, Cmd.none)
+
