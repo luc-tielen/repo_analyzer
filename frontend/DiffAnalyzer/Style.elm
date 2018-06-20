@@ -5,11 +5,13 @@ import Style.Scale as Scale
 import Style.Font as Font
 import Style.Border as Border
 import Style.Color as Color
+import Style.Shadow as Shadow
 import Color exposing (Color, rgba)
 
 
 type Styles = None
             | Button
+            | TextInput
             | Text TextStyles
             | FileMenu
             | FileMenuItem FMItemStyles
@@ -31,7 +33,15 @@ styleSheet =
       [ Border.solid
       , Border.rounded 5
       , Color.background lightGray
+      , Shadow.simple
       ]
+    , style TextInput <|
+      [ Shadow.simple
+      , Border.solid
+      , Border.rounded 5
+      , Border.all 1
+      , prop "border-color" "rgb(238, 238, 236)"
+      ] ++ (font 1)
     , style (Text Title) <| Font.bold :: (font 2)
     , style (Text Standard) <| font 1
     , style FileMenu <|
@@ -44,6 +54,7 @@ styleSheet =
       , Border.bottom 1
       , prop "border-color" "rgb(238, 238, 236)"
       , hover [ Color.background lightGray ]
+      , cursor "pointer"
       ]
     , style (FileMenuItem Selected) <|
       [ Color.background babyBlue
