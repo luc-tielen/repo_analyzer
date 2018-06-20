@@ -3,6 +3,7 @@ module DiffAnalyzer.Graph.View exposing (view)
 import DiffAnalyzer.Graph.Types exposing (..)
 import DiffAnalyzer.Style exposing (..)
 import Element exposing (..)
+import Element.Attributes exposing (..)
 import Html exposing (Html)
 import Time
 import LineChart
@@ -23,20 +24,12 @@ import LineChart.Axis.Intersection as Intersection
 view : GraphModel -> Element Styles variation GraphMsg
 view model =
   case model.currentFile of
-    Nothing -> el None [] <| text "No file selected!"
+    Nothing -> empty
     Just file ->
-      column None [] <|
-          [ text <| "Selected file: " ++ file
+      column None [ width fill, verticalCenter, padding 10 ] <|
+          [ el (Text Title) [ center, paddingBottom 20 ] <| text file
           , html <| chart model.deltas
           ]
-
-
-
-
-
-
-
-
 
 chart : List Delta -> Html GraphMsg
 chart deltas =

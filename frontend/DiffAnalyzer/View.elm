@@ -6,12 +6,13 @@ import DiffAnalyzer.Graph.View as GView
 import DiffAnalyzer.Style exposing (..)
 import Html exposing (Html)
 import Element exposing (..)
+import Element.Attributes exposing (..)
 
 
 view : Model -> Html Msg
 view model =
   Element.viewport styleSheet <|
-    row None []
+    row None [ height (percent 100) ]
       [ FMView.view model.fileMenu |> Element.map FileMenuMsg
       , GView.view model.graph |> Element.map GraphMsg
       ]
