@@ -1,3 +1,4 @@
 backend/target/
 frontend/elm-stuff/
+frontend/node_modules/
 frontend/static/js/app.js
