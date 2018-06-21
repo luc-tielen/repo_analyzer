@@ -27,8 +27,8 @@ update msg model =
               updatedModel2 = { updatedModel | graph = updatedGModel }
           in (updatedModel2, Cmd.map GraphMsg gCmd)
     GraphMsg msg ->
-      let (updatedGModel, _) = GState.update msg model.graph
-      in ({ model | graph = updatedGModel }, Cmd.none)
+      let (updatedGModel, gCmd) = GState.update msg model.graph
+      in ({ model | graph = updatedGModel }, Cmd.map GraphMsg gCmd)
 
 subscriptions : Model -> Sub Msg
 subscriptions _ = Sub.none
