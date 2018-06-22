@@ -11,9 +11,9 @@ import Element.Attributes exposing (..)
 
 view : Model -> Html Msg
 view model =
-  Element.viewport styleSheet <|
-    row None [ height (percent 100) ]
-      [ FMView.view model.fileMenu |> Element.map FileMenuMsg
-      , GView.view model.graph |> Element.map GraphMsg
-      ]
-
+    Element.viewport styleSheet <|
+        row None
+            [ height (percent 100) ]
+            [ FMView.view model.fileMenu |> Element.map FileMenuMsg
+            , GView.view model.graph |> Element.map GraphMsg
+            ]

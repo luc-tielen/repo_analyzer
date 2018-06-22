@@ -8,9 +8,9 @@ import Html
 
 main : Program Never Model Msg
 main =
-  Html.program
-    { init = State.init
-    , update = State.update
-    , view = View.view
-    , subscriptions = State.subscriptions
-    }
+    Html.program
+        { init = State.init
+        , update = State.update
+        , view = View.view
+        , subscriptions = State.subscriptions
+        }
