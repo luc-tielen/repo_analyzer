@@ -43,13 +43,13 @@ styleSheet =
             , Shadow.simple
             ]
         , style TextInput <|
-            [ Shadow.simple
-            , Border.solid
-            , Border.rounded 5
-            , Border.all 1
-            , prop "border-color" "rgb(238, 238, 236)"
-            ]
-                ++ (font 1)
+            (font 1)
+                ++ [ Shadow.simple
+                   , Border.solid
+                   , Border.rounded 5
+                   , Border.all 1
+                   , prop "border-color" "rgb(238, 238, 236)"
+                   ]
         , style (Text Title) <| Font.bold :: (font 2)
         , style (Text Standard) <| font 1
         , style FileMenu <|

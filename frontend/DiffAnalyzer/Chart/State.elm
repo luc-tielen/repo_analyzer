@@ -1,16 +1,16 @@
-module DiffAnalyzer.Graph.State exposing (init, update)
+module DiffAnalyzer.Chart.State exposing (init, update)
 
-import DiffAnalyzer.Graph.Types exposing (..)
-import DiffAnalyzer.Graph.Rest exposing (..)
-import DiffAnalyzer.Graph.Port exposing (drawChart)
+import DiffAnalyzer.Chart.Types exposing (..)
+import DiffAnalyzer.Chart.Rest exposing (..)
+import DiffAnalyzer.Chart.Port exposing (drawChart)
 
 
-init : GraphModel
+init : ChartModel
 init =
     { currentFile = Nothing, deltas = [], filterMode = NoFilter }
 
 
-update : GraphMsg -> GraphModel -> ( GraphModel, Cmd GraphMsg )
+update : ChartMsg -> ChartModel -> ( ChartModel, Cmd ChartMsg )
 update msg model =
     case msg of
         FileSelected file ->
@@ -30,17 +30,17 @@ update msg model =
                 |> updateChart
 
 
-setDeltas : List Delta -> GraphModel -> GraphModel
+setDeltas : List Delta -> ChartModel -> ChartModel
 setDeltas deltas model =
     { model | deltas = deltas }
 
 
-setFilterMode : FilterMode -> GraphModel -> GraphModel
+setFilterMode : FilterMode -> ChartModel -> ChartModel
 setFilterMode mode model =
     { model | filterMode = mode }
 
 
-updateChart : GraphModel -> ( GraphModel, Cmd GraphMsg )
+updateChart : ChartModel -> ( ChartModel, Cmd ChartMsg )
 updateChart model =
     let
         filteredDeltas =

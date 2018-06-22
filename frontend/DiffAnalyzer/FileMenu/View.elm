@@ -15,7 +15,7 @@ view model =
             model
 
         listItems =
-            List.map (showFile currentFile) matchingFiles
+            List.map (fileView currentFile) matchingFiles
 
         title =
             el (Text Title) [ center ] <| text "Files in repository"
@@ -54,21 +54,18 @@ fuzzyFinder =
                 searchParams
 
 
-showFile : Maybe File -> File -> Element Styles variation FileMenuMsg
-showFile selectedFile file =
+fileView : Maybe File -> File -> Element Styles variation FileMenuMsg
+fileView selectedFile file =
     let
-        style =
-            case ( selectedFile, file ) of
-                ( Nothing, _ ) ->
-                    FileMenuItem Normal
+        stylePicker aFile =
+            if aFile == file then
+                FileMenuItem Selected
+            else
+                FileMenuItem Normal
 
-                ( Just f1, f2 ) ->
-                    FileMenuItem
-                        (if f1 == f2 then
-                            Selected
-                         else
-                            Normal
-                        )
+        style =
+            Maybe.map stylePicker selectedFile
+                |> Maybe.withDefault (FileMenuItem Normal)
     in
         el style [ onClick <| FileSelected file ] <|
             el (Text Standard) [] <|
@@ -84,11 +81,11 @@ truncateFile file =
         maxChars =
             30
 
-        numFileChars =
+        numChars =
             String.length file
 
         charsToRemove =
-            numFileChars - maxChars - 3
+            numChars - maxChars - 3
     in
         if charsToRemove <= 0 then
             file

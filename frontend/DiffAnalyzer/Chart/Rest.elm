@@ -1,6 +1,6 @@
-module DiffAnalyzer.Graph.Rest exposing (getDeltasForFile)
+module DiffAnalyzer.Chart.Rest exposing (getDeltasForFile)
 
-import DiffAnalyzer.Graph.Types exposing (..)
+import DiffAnalyzer.Chart.Types exposing (..)
 import Http
 import Json.Decode as JD
 import Json.Encode as JE
@@ -17,7 +17,7 @@ deltaDecoder =
         (JD.field "deletions" JD.int)
 
 
-getDeltasForFile : File -> Cmd GraphMsg
+getDeltasForFile : File -> Cmd ChartMsg
 getDeltasForFile file =
     let
         url =

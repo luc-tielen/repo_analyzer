@@ -1,6 +1,6 @@
-module DiffAnalyzer.Graph.View exposing (view)
+module DiffAnalyzer.Chart.View exposing (view)
 
-import DiffAnalyzer.Graph.Types exposing (..)
+import DiffAnalyzer.Chart.Types exposing (..)
 import DiffAnalyzer.Style exposing (..)
 import Element exposing (..)
 import Element.Events exposing (..)
@@ -9,21 +9,20 @@ import Html exposing (Html)
 import Html.Attributes as HA
 
 
-view : GraphModel -> Element Styles variation GraphMsg
+view : ChartModel -> Element Styles variation ChartMsg
 view model =
-    case model.currentFile of
-        Nothing ->
-            empty
-
-        Just file ->
+    let
+        layout file =
             column None [ width fill, verticalCenter, padding 10 ] <|
                 [ el (Text Title) [ center, paddingBottom 20 ] <| text file
                 , chart
                 , filterDeltasButton model
                 ]
+    in
+        Maybe.map layout model.currentFile |> Maybe.withDefault empty
 
 
-filterDeltasButton : GraphModel -> Element Styles variation GraphMsg
+filterDeltasButton : ChartModel -> Element Styles variation ChartMsg
 filterDeltasButton model =
     case model.filterMode of
         NoFilter ->
@@ -41,7 +40,7 @@ filterDeltasButton model =
                 button Button attrs <| text "Show entire history"
 
 
-chart : Element Styles variation GraphMsg
+chart : Element Styles variation ChartMsg
 chart =
     -- NOTE: the div is needed because of the way Elm virtual DOM works!
     -- Otherwise glitchy behavior occurs because Elm and JS both try rendering stuff.

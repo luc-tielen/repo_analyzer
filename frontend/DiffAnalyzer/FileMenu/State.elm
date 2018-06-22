@@ -21,18 +21,37 @@ update : FileMenuMsg -> FileMenuModel -> ( FileMenuModel, Maybe FMUpstreamMsg )
 update msg model =
     case msg of
         FilesLoaded (Ok files) ->
-            ( { model | files = files, matchingFiles = files }, Nothing )
+            let
+                updatedModel =
+                    model |> setFiles files |> setMatchingFiles files
+            in
+                ( updatedModel, Nothing )
 
         FilesLoaded (Err err) ->
             ( model, Nothing )
 
         FileSelected file ->
-            ( { model | currentFile = Just file }, Just <| NotifyFileSelected file )
+            ( model |> setCurrentFile file, Just <| NotifyFileSelected file )
 
         FuzzyInputChanged input ->
-            ( { model | matchingFiles = fuzzyMatchFiles input model.files }, Nothing )
+            ( model |> setMatchingFiles (fuzzyMatchFiles input model.files), Nothing )
+
+
+setFiles : List File -> FileMenuModel -> FileMenuModel
+setFiles files model =
+    { model | files = files }
+
+
+setMatchingFiles : List File -> FileMenuModel -> FileMenuModel
+setMatchingFiles matchingFiles model =
+    { model | matchingFiles = matchingFiles }
+
+
+setCurrentFile : File -> FileMenuModel -> FileMenuModel
+setCurrentFile file model =
+    { model | currentFile = Just file }
 
 
 fuzzyMatchFiles : String -> List File -> List File
 fuzzyMatchFiles =
-    Fuzzy.filter (\x -> x)
+    Fuzzy.filter identity

@@ -1,13 +1,13 @@
 module DiffAnalyzer.Types exposing (..)
 
 import DiffAnalyzer.FileMenu.Types exposing (..)
-import DiffAnalyzer.Graph.Types exposing (..)
+import DiffAnalyzer.Chart.Types exposing (..)
 
 
 type alias Model =
-    { fileMenu : FileMenuModel, graph : GraphModel }
+    { fileMenu : FileMenuModel, chart : ChartModel }
 
 
 type Msg
     = FileMenuMsg FileMenuMsg
-    | GraphMsg GraphMsg
+    | ChartMsg ChartMsg

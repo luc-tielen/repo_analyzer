@@ -1,4 +1,4 @@
-module DiffAnalyzer.Graph.Types exposing (..)
+module DiffAnalyzer.Chart.Types exposing (..)
 
 import Http
 
@@ -34,14 +34,14 @@ type FilterMode
     | OnlyChanges
 
 
-type alias GraphModel =
+type alias ChartModel =
     { currentFile : Maybe File
     , deltas : List Delta
     , filterMode : FilterMode
     }
 
 
-type GraphMsg
+type ChartMsg
     = FileSelected File
     | DeltasRetrieved (Result Http.Error (List Delta))
     | ChangeFilterMode FilterMode
