@@ -12,6 +12,21 @@ at the git history.
 
 This app can be run locally as well as in a Docker image.
 The docker image is the easiest way to get up and running.
+
+*NOTE*: currently (22-06-2018) the Docker image doesn't work that great on MacOSX due to extremely slow docker volumes.
+On Linux, everything is buttery smooth. :sweat_smile:
+
+If you do want to run it on MacOSX, it's probably best to run it directly.
+
+
+### Based on image from Dockerhub
+
+1. docker pull luctielen/repo_analyzer
+2. docker run -p 80:8000 -v /path/to/repository:/app/repo:ro,cached -it repo_analyzer
+
+
+### Locally building Docker image
+
 The `Makefile` in this repo has some shortcuts for executing the correct docker commands:
 
 1. make build
@@ -20,10 +35,9 @@ The `Makefile` in this repo has some shortcuts for executing the correct docker 
 
 If you want to analyze another repo than this one, take a look at the run command in the Makefile and change `$(pwd)` to another directory containing a git repository.
 
-*NOTE*: currently (22-06-2018) the Docker image doesn't work that great on MacOSX due to extremely slow docker volumes.
-On Linux, everything is buttery smooth. :sweat_smile:
 
-If you do want to run it on MacOSX, it's probably best to run it directly.
+### Running repo_analyzer directly (no Docker)
+
 This can be done as follows:
 
 1. Install cargo, rust (nightly 2018-06-09), yarn
