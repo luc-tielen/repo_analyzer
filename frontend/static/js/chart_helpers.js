@@ -12,7 +12,7 @@ drawChartImpl = (deltas) => {
   chart = new Chart(document.getElementById("deltas-chart"), {
     type: 'line',
     data: {
-      labels: deltas.map(delta => new Date(delta.time).toDateString()),
+      labels: deltas.map(delta => new Date(delta.time)),
       datasets: [
         {
           data: deltas.map(delta => delta.additions),
@@ -61,11 +61,27 @@ drawChartImpl = (deltas) => {
         }
       },
       elements: {
+        line: {
+          cubicInterpolationMode: 'monotone'
+        },
         point: {
           radius: 2
         }
       },
       scales: {
+        xAxes: [{
+          ticks: {
+            autoSkip: false,
+            maxRotation: 90,
+            minRotation: 90
+          },
+          type: 'time',
+          time: {
+            displayFormats: {
+              day: 'MMM D YYYY'
+            }
+          }
+        }],
         yAxes: [{
           ticks: {
             beginAtZero: true
@@ -77,7 +93,7 @@ drawChartImpl = (deltas) => {
         }]
       },
       animation: { duration: 0 },
-      hover: { animationDuration: 0, },
+      hover: { animationDuration: 0 },
       responsiveAnimationDuration: 0
     }
   })
