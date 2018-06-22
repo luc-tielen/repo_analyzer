@@ -21,6 +21,7 @@ WORKDIR /tmp/workdir
 
 COPY frontend .
 RUN yarn install && \
+    yarn run elm-package install -- -y && \
     yarn run elm-make Main.elm -- --output=/tmp/artifacts/app.js
 
 # 3. Copy over artifacts into a clean, minimal third stage
