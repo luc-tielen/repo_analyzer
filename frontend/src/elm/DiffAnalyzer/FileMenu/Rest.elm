@@ -5,11 +5,11 @@ import Http
 import Json.Decode as JD
 
 
-getFilesInRepo : Cmd FileMenuMsg
-getFilesInRepo =
+getFilesInRepo : String -> Cmd FileMenuMsg
+getFilesInRepo apiUrl =
     let
         url =
-            "/api/v1/files_in_repo"
+            apiUrl ++ "/api/v1/files_in_repo"
 
         filesDecoder =
             JD.list JD.string |> JD.at [ "files" ]

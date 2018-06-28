@@ -16,14 +16,14 @@ fn get_index_page() {
     let mut resp = client.get("/").dispatch();
     assert_eq!(resp.status(), Status::Ok);
     let body = resp.body_string().unwrap();
-    assert!(body.contains("elm-container"));
+    assert!(body.contains("src=\"/app.js\""));
 }
 
 #[test]
 fn get_assets() {
     // NOTE: requires running elm-live first to generate app.js
     let client = rocket_client();
-    let mut resp = client.get("/js/app.js").dispatch();
+    let mut resp = client.get("/index.js").dispatch();
     assert_eq!(resp.status(), Status::Ok);
     let body = resp.body_string().unwrap();
     assert!(body.contains("Elm"));

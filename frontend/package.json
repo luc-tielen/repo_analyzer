@@ -1,5 +1,16 @@
 {
+  "scripts": {
+    "build": "webpack",
+    "reload": "webpack-dev-server --port 3000"
+  },
   "devDependencies": {
-    "elm": "^0.18.0"
+    "clean-webpack-plugin": "^0.1.19",
+    "dotenv-webpack": "^1.5.7",
+    "elm": "^0.18.0",
+    "elm-webpack-loader": "^4.5.0",
+    "file-loader": "^1.1.11",
+    "webpack": "^4.12.1",
+    "webpack-cli": "^3.0.8",
+    "webpack-dev-server": "^3.1.4"
   }
 }

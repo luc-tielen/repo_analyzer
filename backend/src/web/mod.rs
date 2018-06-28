@@ -8,6 +8,8 @@ use std::path::{Path, PathBuf};
 
 use rocket;
 use rocket::response::NamedFile;
+use rocket::http::Method;
+use rocket_cors::{Cors, AllowedHeaders, AllowedOrigins};
 use rocket_contrib::{Json, Value};
 
 use git2::Repository;
@@ -20,12 +22,12 @@ fn get_repo_dir() -> String {
 
 #[get("/")]
 fn index() -> io::Result<NamedFile> {
-    NamedFile::open("../frontend/static/index.html")
+    NamedFile::open("../frontend/src/index.html")
 }
 
 #[get("/<file..>")]
 fn files(file: PathBuf) -> Option<NamedFile> {
-  NamedFile::open(Path::new("../frontend/static/").join(file)).ok()
+  NamedFile::open(Path::new("../frontend/src/").join(file)).ok()
 }
 
 #[get("/files_in_repo", format="application/json")]
@@ -57,10 +59,25 @@ fn get_deltas_for_file(body: Json<DeltaBody>) -> Json<Value> {
     }
 }
 
+fn cors_settings() -> Cors {
+    let (allowed_origins, _) = AllowedOrigins::some(&["http://localhost:3000", "http://localhost:8000"]);
+    Cors {
+        allowed_origins: allowed_origins,
+        allowed_methods: vec![Method::Get, Method::Post]
+            .into_iter()
+            .map(From::from)
+            .collect(),
+        allowed_headers: AllowedHeaders::all(),
+        allow_credentials: true,
+        ..Default::default()
+    }
+}
+
 pub fn configure_server() -> rocket::Rocket {
     rocket::ignite()
           .mount("/", routes![index, files])
           .mount("/api/v1", routes![files_in_repo, get_deltas_for_file])
+          .attach(cors_settings())
 }
 
 pub fn start_server() {

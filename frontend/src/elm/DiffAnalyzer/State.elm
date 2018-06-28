@@ -7,16 +7,19 @@ import DiffAnalyzer.FileMenu.State as FMState
 import DiffAnalyzer.Chart.State as CState
 
 
-init : ( Model, Cmd Msg )
-init =
+init : Config -> ( Model, Cmd Msg )
+init cfg =
     let
+        apiUrl =
+            cfg.apiUrl
+
         ( fmModel, initialCmd ) =
-            FMState.init
+            FMState.init apiUrl
 
         cModel =
-            CState.init
+            CState.init apiUrl
     in
-        ( { fileMenu = fmModel, chart = cModel }, Cmd.map FileMenuMsg initialCmd )
+        ( { fileMenu = fmModel, chart = cModel, config = cfg }, Cmd.map FileMenuMsg initialCmd )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )

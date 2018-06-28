@@ -20,19 +20,22 @@ RUN mkdir -p /tmp/workdir /tmp/artifacts
 WORKDIR /tmp/workdir
 
 COPY frontend .
-RUN yarn install && \
+RUN echo "ELM_APP_API_URL=http://127.0.0.1:8000" >> .env && \
+    yarn install && \
     yarn run elm-package install -- -y && \
-    yarn run elm-make Main.elm -- --output=/tmp/artifacts/app.js
+    yarn build && \
+    cp /tmp/workdir/dist/app.js /tmp/artifacts/app.js && \
+    cp /tmp/workdir/dist/index.html /tmp/artifacts/index.html
 
 # 3. Copy over artifacts into a clean, minimal third stage
 FROM library/alpine:3.7
 
-RUN mkdir -p /app/backend /app/frontend/static/js /app/repo
+RUN mkdir -p /app/backend /app/frontend/static /app/frontend/src /app/repo
 WORKDIR /app/backend
 
 COPY --from=BACKEND_STAGE /tmp/artifacts/repo_analyzer /app/backend
-COPY --from=FRONTEND_STAGE /tmp/artifacts/app.js /app/frontend/static/js
-COPY frontend/static/ /app/frontend/static
+COPY --from=FRONTEND_STAGE /tmp/artifacts/app.js /app/frontend/src/
+COPY --from=FRONTEND_STAGE /tmp/artifacts/index.html /app/frontend/src/
 
 EXPOSE 8000
 VOLUME /app/repo

@@ -35,7 +35,8 @@ type FilterMode
 
 
 type alias ChartModel =
-    { currentFile : Maybe File
+    { apiUrl : String
+    , currentFile : Maybe File
     , deltas : List Delta
     , filterMode : FilterMode
     }

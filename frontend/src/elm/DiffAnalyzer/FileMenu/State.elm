@@ -5,14 +5,14 @@ import DiffAnalyzer.FileMenu.Rest as FMRest
 import Simple.Fuzzy as Fuzzy
 
 
-init : ( FileMenuModel, Cmd FileMenuMsg )
-init =
+init : String -> ( FileMenuModel, Cmd FileMenuMsg )
+init apiUrl =
     let
         initialModel =
             { files = [], matchingFiles = [], currentFile = Nothing }
 
         initialCmd =
-            FMRest.getFilesInRepo
+            FMRest.getFilesInRepo apiUrl
     in
         ( initialModel, initialCmd )
 

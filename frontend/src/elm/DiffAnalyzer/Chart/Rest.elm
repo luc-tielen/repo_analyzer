@@ -17,11 +17,11 @@ deltaDecoder =
         (JD.field "deletions" JD.int)
 
 
-getDeltasForFile : File -> Cmd ChartMsg
-getDeltasForFile file =
+getDeltasForFile : String -> File -> Cmd ChartMsg
+getDeltasForFile apiUrl file =
     let
         url =
-            "/api/v1/deltas"
+            apiUrl ++ "/api/v1/deltas"
 
         deltasDecoder =
             JD.list deltaDecoder |> JD.at [ "deltas" ]

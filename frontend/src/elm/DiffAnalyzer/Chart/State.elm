@@ -5,16 +5,16 @@ import DiffAnalyzer.Chart.Rest exposing (..)
 import DiffAnalyzer.Chart.Port exposing (drawChart)
 
 
-init : ChartModel
-init =
-    { currentFile = Nothing, deltas = [], filterMode = NoFilter }
+init : String -> ChartModel
+init apiUrl =
+    { apiUrl = apiUrl, currentFile = Nothing, deltas = [], filterMode = NoFilter }
 
 
 update : ChartMsg -> ChartModel -> ( ChartModel, Cmd ChartMsg )
 update msg model =
     case msg of
         FileSelected file ->
-            ( { model | currentFile = Just file }, getDeltasForFile file )
+            ( { model | currentFile = Just file }, getDeltasForFile model.apiUrl file )
 
         DeltasRetrieved (Err _) ->
             ( model, Cmd.none )
